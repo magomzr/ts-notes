@@ -21,9 +21,7 @@ let a: {
 
 //? Index signatures => idxSign debe ser un object con key tipo string y value string o number[].
 
-export function indexSignatures(idxSign?: {
-  [key: number]: string | number[];
-}): boolean {
+export function indexSignatures(idxSign?: { [key: number]: string | number[] }): boolean {
   return idxSign ? true : false;
 }
 
@@ -44,3 +42,20 @@ type Log = (msg?: string, userId?: number) => boolean;
 export const logFunction: Log = (msg?: string, userId?: number) => {
   return msg ? true : false;
 };
+
+// Utility types. Se usan para crear nuevos tipos a partir de otros.
+
+export type TObject = Record<string, any>;
+export type TAny = {
+  [key: string]: number; // Esto también se le conoce como index signature.
+};
+
+// Creación de tipo que, a partir de un tipo que son requeridos, se le indican los que serán opcionales.
+export type ObligatoriosTodos = {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+};
+
+export type ConLosSiguientesOpcionales<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
