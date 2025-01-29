@@ -1,4 +1,4 @@
-import { pipe, wrapThrows, Result } from ".";
+import { pipe, wrapThrows, Result, memoize } from ".";
 
 describe("Testing utils", () => {
   test("Testing pipe method", () => {
@@ -33,5 +33,23 @@ describe("Testing utils", () => {
     expect(result1).toEqual({ ok: true, value: 5 });
     expect(result2).toEqual({ ok: false, error: new Error("Cannot divide by zero") });
     expect(result3).toEqual({ ok: true, value: 4 });
+  });
+
+  test("Testing the memoize method", () => {
+    // Example
+    const slowFunction = (num: number) => {
+      let result = 0;
+      for (let i = 0; i < num; i++) {
+        result += i;
+      }
+      return result;
+    };
+
+    const fastFunction = memoize(slowFunction);
+
+    const result1 = fastFunction(100);
+    const result2 = fastFunction(100);
+
+    expect(result1).toBe(result2);
   });
 });

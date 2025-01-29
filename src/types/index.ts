@@ -59,3 +59,19 @@ export type ObligatoriosTodos = {
 };
 
 export type ConLosSiguientesOpcionales<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
+
+export type DeepPartialWithArrays<T> = T extends (infer U)[]
+  ? DeepPartialWithArrays<U>[]
+  : T extends readonly (infer U)[]
+  ? readonly DeepPartialWithArrays<U>[]
+  : T extends {
+      [key in keyof T]: T[key];
+    }
+  ? {
+      [K in keyof T]?: DeepPartialWithArrays<T[K]>;
+    }
+  : T;

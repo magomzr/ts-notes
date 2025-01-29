@@ -6,6 +6,8 @@ import {
   TAny,
   ObligatoriosTodos,
   ConLosSiguientesOpcionales,
+  DeepPartial,
+  DeepPartialWithArrays,
 } from ".";
 
 describe("Testing types", () => {
@@ -67,5 +69,86 @@ describe("Testing types", () => {
       email: "juan.perez@dummy.com",
     });
     expect(opcionalSinApellido.apellido).toBeUndefined();
+  });
+
+  test("Testing DeepPartial type with simple object", () => {
+    type User = {
+      id: number;
+      name: string;
+      age: number;
+    };
+
+    const user: User = {
+      id: 1,
+      name: "John Doe",
+      age: 30,
+    };
+
+    const userPartial: DeepPartial<User> = {
+      age: 30,
+    };
+
+    expect(userPartial).toEqual({ age: 30 });
+  });
+
+  test("Testing DeepPartial type with nested object", () => {
+    type User = {
+      id: number;
+      name: string;
+      age: number;
+      address: {
+        street: string;
+        city: string;
+      };
+    };
+
+    const user: User = {
+      id: 1,
+      name: "John Doe",
+      age: 30,
+      address: {
+        street: "1234 Main St",
+        city: "Springfield",
+      },
+    };
+
+    const userPartial: DeepPartial<User> = {
+      address: {
+        city: "Shelbyville",
+      },
+    };
+
+    expect(userPartial).toEqual({
+      address: {
+        city: "Shelbyville",
+      },
+    });
+  });
+
+  test("Testing DeepPartial type with array", () => {
+    type User = {
+      id: number;
+      name: string;
+      age: number;
+      friends: { name: string; age: number }[];
+    };
+
+    const user: User = {
+      id: 1,
+      name: "John Doe",
+      age: 30,
+      friends: [
+        { name: "Jane Doe", age: 30 },
+        { name: "Alice Smith", age: 30 },
+      ],
+    };
+
+    const userPartial: DeepPartialWithArrays<User> = {
+      friends: [{ age: 30 }],
+    };
+
+    expect(userPartial).toEqual({
+      friends: [{ age: 30 }],
+    });
   });
 });
