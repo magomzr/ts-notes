@@ -7,7 +7,7 @@ import {
   ConsoleProcessor,
 } from ".";
 
-describe("UseCase pattern tests", () => {
+describe("useCase pattern tests", () => {
   const mockUserData: JSONPlaceHolderUserType[] = [
     {
       id: 1,
