@@ -44,3 +44,23 @@ export const memoize = (fn: Function) => {
     return result;
   };
 };
+
+export const memoizeAsync = (fn: Function) => {
+  const cache = new Map();
+  return async (...args: any[]) => {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key);
+    const result = await fn(...args);
+    cache.set(key, result);
+    return result;
+  };
+};
+
+export const objectToTestDestructuringWithSpreadOperator = {
+  name: "John Doe",
+  age: 30,
+  country: "Spain",
+  city: "Madrid",
+  job: "Developer",
+  hobbies: ["reading", "music", "sports"],
+};
